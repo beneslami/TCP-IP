@@ -1,1 +1,3 @@
 # TCP-IP
+
+![](graph.png)
