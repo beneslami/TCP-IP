@@ -3,6 +3,7 @@
 //
 
 #include "graph.h"
+#include "css.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -62,7 +63,7 @@ void dump_node(node_t *node){
     unsigned int i = 0;
     interface_t *intf;
 
-    printf("Node Name = %s : \n", node->node_name);
+    printf("Node Name = %s : LO address: %s\n", node->node_name, node->node_nw_prop.lb_addr.ip_addr);
     for( ; i < MAX_INTF_PER_NODE; i++){
 
         intf = node->intf[i];
@@ -76,8 +77,9 @@ void dump_interface(interface_t *interface){
     link_t *link = interface->link;
     node_t *nbr_node = get_nbr_node(interface);
 
-    printf("Interface Name = %s\n\tNbr Node %s, Local Node : %s, cost = %u\n",
+    printf("Interface Name = "ANSI_COLOR_RED"%s"ANSI_COLOR_RESET", IP address: "ANSI_COLOR_GREEN "%s"ANSI_COLOR_RESET"\n\tNbr Node %s, Local Node : %s, cost = %u\n",
            interface->if_name,
+           interface->intf_nw_props.ip_add.ip_addr,
            nbr_node->node_name,
            interface->att_node->node_name,
            link->cost);

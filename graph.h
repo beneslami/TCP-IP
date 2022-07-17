@@ -5,8 +5,10 @@
 #define TCP_IP_GRAPH_H
 
 #include "gluethread/glthread.h"
+#include "net.h"
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 
 #define NODE_NAME_SIZE  16
 #define IF_NAME_SIZE    16
@@ -19,6 +21,7 @@ typedef struct interface_{
     char if_name[IF_NAME_SIZE];
     struct node_ *att_node;
     struct link_ *link;
+    intf_nw_props_t intf_nw_props;
 }interface_t;
 
 struct link_{
@@ -31,6 +34,7 @@ struct node_{
     char node_name[NODE_NAME_SIZE];
     interface_t *intf[MAX_INTF_PER_NODE];
     glthread_t graph_glue;
+    node_nw_prop_t node_nw_prop;
 };
 
 GLTHREAD_TO_STRUCT(graph_glue_to_node, node_t, graph_glue);
@@ -79,7 +83,7 @@ static inline interface_t *get_node_if_by_name(node_t *node, char *if_name){
             return NULL;
         }
         if(strcmp(node->intf[i]->if_name, if_name) == 0){
-            return node_intf[i];
+            return node->intf[i];
         }
     }
     return NULL;
