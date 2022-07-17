@@ -2,12 +2,15 @@
 // Created by Ben on 7/5/22.
 //
 #include "graph.h"
+#include "CommandParser/libcli.h"
 
 graph_t *topo = NULL;
 extern graph_t *build_first_topo();
+extern void nw_init_cli();
 int
 main(int argc, char **argv){
-    graph_t *topo = build_first_topo();
-    dump_graph(topo);
+    nw_init_cli();
+    topo = build_first_topo();
+    start_shell();
     return 0;
 }
