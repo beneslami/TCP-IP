@@ -6,7 +6,8 @@ OBJS=gluethread/glthread.o \
 		graph.o			   \
 		topologies.o	   \
 		net.o			   \
-		nwcli.o
+		nwcli.o			   \
+		comm.o
 
 test.exe:testapp.o ${OBJS} CommandParser/libcli.a
 	${CC} ${CFLAGS} testapp.o ${OBJS} -o test.exe ${LIBS}
@@ -31,6 +32,9 @@ nwcli.o:nwcli.c
 
 CommandParser/libcli.a:
 	(cd CommandParser; make)
+
+comm.o:comm.c
+	${CC} ${CFLAGS} -c -I . comm.c -o comm.o
 
 clean:
 	rm *.o
