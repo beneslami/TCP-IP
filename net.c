@@ -4,6 +4,7 @@
 
 #include "graph.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 static unsigned int hash_code(void *ptr, unsigned int size){
     unsigned int value = 0, i = 0;
@@ -49,4 +50,26 @@ bool_t node_set_intf_ip_address(node_t *node, char *local_if, char *ip_addr, cha
 
 bool_t node_unset_intf_ip_address(node_t *node, char *local_if){
 
+}
+
+char *pkt_buffer_shift_right(char *pkt, unsigned int pkt_size, unsigned int total_buffer_size){
+    char *temp = NULL;
+    bool_t need_temp_memory = FALSE;
+
+    if(pkt_size * 2 > total_buffer_size){
+        need_temp_memory = TRUE;
+    }
+
+    if(need_temp_memory){
+        temp = calloc(1, pkt_size);
+        memcpy(temp, pkt, pkt_size);
+        memset(pkt, 0, total_buffer_size);
+        memcpy(pkt + (total_buffer_size - pkt_size), temp, pkt_size);
+        free(temp);
+        return pkt + (total_buffer_size - pkt_size);
+    }
+
+    memcpy(pkt + (total_buffer_size - pkt_size), pkt, pkt_size);
+    memset(pkt, 0, pkt_size);
+    return pkt + (total_buffer_size - pkt_size);
 }
