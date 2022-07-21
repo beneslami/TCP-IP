@@ -7,7 +7,8 @@ OBJS=gluethread/glthread.o \
 		topologies.o	   \
 		net.o			   \
 		nwcli.o			   \
-		comm.o
+		comm.o			   \
+		layer2/layer2.o
 
 test.exe:testapp.o ${OBJS} CommandParser/libcli.a
 	${CC} ${CFLAGS} testapp.o ${OBJS} -o test.exe ${LIBS}
@@ -36,9 +37,13 @@ CommandParser/libcli.a:
 comm.o:comm.c
 	${CC} ${CFLAGS} -c -I . comm.c -o comm.o
 
+Layer2/layer2.o:Layer2/layer2.c
+	${CC} ${CFLAGS} -c -I . Layer2/layer2.c -o Layer2/layer2.o
+
 clean:
 	rm *.o
 	rm gluethread/glthread.o
+	rm layer2/layer2.o
 	rm *.exe
 	(cd CommandParser; make clean)
 
