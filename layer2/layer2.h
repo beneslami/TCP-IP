@@ -54,19 +54,18 @@ static inline ethernet_hdr_t *ALLOC_ETH_HDR_WITH_PAYLOAD(char *pkt, unsigned int
 
 
 static inline bool_t l2_frame_recv_qualify_on_interface(interface_t *interface, ethernet_hdr_t *ethernet_hdr){
-    if(!IS_INTF_L3_MODE(interface)){
+    /*if(!IS_INTF_L3_MODE(interface) && IF_L2_MODE(interface) == L2_MODE_UNKNOWN){
         return FALSE;
-    }
-    if(memcmp(IF_MAC(interface),
-              ethernet_hdr->dest_mac.mac,
-              sizeof(mac_add_t)) == 0){
+    }*/
+    if(memcmp(IF_MAC(interface),ethernet_hdr->dest_mac.mac,sizeof(mac_add_t)) == 0){
         return TRUE;
 
     }
     if(IS_MAC_BROADCAST_ADDR(ethernet_hdr->dest_mac.mac)){
         return TRUE;
     }
-    return FALSE;
+    //return FALSE;
+    return TRUE;
 }
 
 typedef struct arp_table_{

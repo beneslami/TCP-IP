@@ -4,6 +4,7 @@
 
 #include "graph.h"
 #include "css.h"
+#include "net.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -48,6 +49,12 @@ void insert_link_between_two_nodes(node_t *node1, node_t *node2, char *from_if_n
     node1->intf[empty_intf_slot] = &link->intf1;
     empty_intf_slot = get_node_intf_available_slot(node2);
     node2->intf[empty_intf_slot] = &link->intf2;
+
+    init_intf_nw_prop(&link->intf1.intf_nw_props);
+    init_intf_nw_prop(&link->intf2.intf_nw_props);
+
+    interface_assign_mac_address(&link->intf1);
+    interface_assign_mac_address(&link->intf2);
 }
 
 void dump_graph(graph_t *graph){

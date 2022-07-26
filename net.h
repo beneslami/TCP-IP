@@ -80,7 +80,7 @@ static inline void init_intf_nw_prop(intf_nw_props_t *intf_nw_props){
 bool_t node_set_loopback_address(node_t*, char*);
 bool_t node_set_intf_ip_address(node_t*, char*, char*, char);
 bool_t node_unset_intf_ip_address(node_t*, char*);
-
+void interface_assign_mac_address(interface_t *interface);
 char *pkt_buffer_shift_right(char *pkt, unsigned int pkt_size, unsigned int total_buffer_size);
 
 interface_t * node_get_matching_subnet_interface(node_t *node, char *ip_addr);
