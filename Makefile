@@ -7,6 +7,7 @@ OBJS=gluethread/glthread.o \
 		topologies.o	   \
 		net.o			   \
 		nwcli.o			   \
+		utils.o			   \
 		comm.o			   \
 		layer2/layer2.o
 
