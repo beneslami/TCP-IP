@@ -118,7 +118,7 @@ bool_t arp_table_entry_add(arp_table_t *arp_table, arp_entry_t *arp_entry);
 void dump_arp_table(arp_table_t *arp_table);
 void arp_table_update_from_arp_reply(arp_table_t *arp_table, arp_hdr_t *arp_hdr, interface_t *iif);
 void send_arp_broadcast_request(node_t *node, interface_t *oif, char *ip_addr);
-
+void node_set_intf_l2_mode(node_t *node, char *intf_name, intf_l2_mode_t intf_l2_mode);
 
 #if 0
 ethernet header:

@@ -17,9 +17,7 @@
 
 extern void layer2_frame_recv(node_t *node, interface_t *interface, char *pkt, unsigned int pkt_size);
 
-static int
-_send_pkt_out(int sock_fd, char *pkt_data, unsigned int pkt_size,
-              unsigned int dst_udp_port_no){
+static int _send_pkt_out(int sock_fd, char *pkt_data, unsigned int pkt_size, unsigned int dst_udp_port_no){
 
     int rc;
     struct sockaddr_in dest_addr;
@@ -59,8 +57,7 @@ void init_udp_socket(node_t *node){
 static char recv_buffer[MAX_PACKET_BUFFER_SIZE];
 static char send_buffer[MAX_PACKET_BUFFER_SIZE];
 
-int pkt_receive(node_t *node, interface_t *interface,
-            char *pkt, unsigned int pkt_size){
+int pkt_receive(node_t *node, interface_t *interface, char *pkt, unsigned int pkt_size){
     pkt = pkt_buffer_shift_right(pkt, pkt_size, MAX_PACKET_BUFFER_SIZE - IF_NAME_SIZE);
     layer2_frame_recv(node, interface, pkt, pkt_size);
     //printf("Msg received = %s, on node =%s, Interface = %s\n", pkt, node->node_name, interface->if_name);
@@ -156,4 +153,17 @@ int send_pkt_out(char *pkt, unsigned int pkt_size, interface_t *interface){
 
     close(sock);
     return rc;
+}
+
+int send_pkt_flood_l2_intf_only(node_t *node, interface_t *exempted_intf, char *pkt, unsigned int pkt_size){
+    unsigned int i = 0;
+    interface_t *intf;
+    for( ; i < MAX_INTF_PER_NODE; i++){
+        intf = node->intf[i];
+        if(!intf) return 0;
+        if(intf == exempted_intf ||
+           !IF_L2_MODE(intf))
+            continue;
+        send_pkt_out(pkt, pkt_size, intf);
+    }
 }

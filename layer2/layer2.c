@@ -221,3 +221,40 @@ void layer2_frame_recv(node_t *node, interface_t *interface, char *pkt, unsigned
         return;
     }
 }
+
+void interface_set_l2_mode(node_t *node, interface_t *interface, char *l2_mode_option){
+    intf_l2_mode_t intf_l2_mode;
+    if(strncmp(l2_mode_option, "access", strlen("access")) == 0){
+        intf_l2_mode = ACCESS;
+    }
+    else if(strncmp(l2_mode_option, "trunk", strlen("trunk")) == 0){
+        intf_l2_mode = TRUNK;
+    }
+    else{
+        assert(0);
+    }
+    if(IS_INTF_L3_MODE(interface)){
+        //interface->intf_nw_props.is_ipadd_config_backup = FALSE;
+        interface->intf_nw_props.is_ipadd_config = FALSE;
+        IF_L2_MODE(interface) = intf_l2_mode;
+        return;
+    }
+    if(IF_L2_MODE(interface) == L2_MODE_UNKNOWN){
+        IF_L2_MODE(interface) = intf_l2_mode;
+        return;
+    }
+    if(IF_L2_MODE(interface) == intf_l2_mode)
+        return;
+    if(IF_L2_MODE(interface) == ACCESS && intf_l2_mode == TRUNK){
+        IF_L2_MODE(interface) = intf_l2_mode;
+    }
+    if(IF_L2_MODE(interface) == TRUNK && intf_l2_mode == ACCESS){
+        IF_L2_MODE(interface) = intf_l2_mode;
+    }
+}
+
+void node_set_intf_l2_mode(node_t *node, char *intf_name, intf_l2_mode_t intf_l2_modde){
+    interface_t *interface = get_node_if_by_name(node, intf_name);
+    assert(interface);
+    interface_set_l2_mode(node, interface, intf_l2_mode_str(intf_l2_modde));
+}
