@@ -90,10 +90,11 @@ void dump_interface(interface_t *interface){
     node_t *nbr_node = get_nbr_node(interface);
 
     printf("Interface Name = "ANSI_COLOR_RED"%s"ANSI_COLOR_RESET", IP address: "ANSI_COLOR_GREEN "%s"ANSI_COLOR_RESET
-            ", MAC address: "ANSI_COLOR_RED"%s"ANSI_COLOR_RESET "\n\tNbr Node %s, Local Node : %s, cost = %u\n",
+            ", MAC address: "ANSI_COLOR_RED"%u:%u:%u:%u:%u:%u"ANSI_COLOR_RESET "\n\tNbr Node %s, Local Node : %s, cost = %u\n",
            interface->if_name,
            interface->intf_nw_props.ip_add.ip_addr,
-           interface->intf_nw_props.mac_add.mac,
+           IF_MAC(interface)[0], IF_MAC(interface)[1],IF_MAC(interface)[2], IF_MAC(interface)[3],
+           IF_MAC(interface)[4], IF_MAC(interface)[5],
            nbr_node->node_name,
            interface->att_node->node_name,
            link->cost);

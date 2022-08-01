@@ -55,9 +55,14 @@ static inline void init_node_nw_prop(node_nw_prop_t *node_nw_prop){
     init_arp_table(&(node_nw_prop->arp_table));
 }
 
+#define MAX_VLAN_MEMBERSHIP 10
+
 typedef struct intf_nw_props_ {
     mac_add_t mac_add; //L2 property
     intf_l2_mode_t intf_l2_mode;
+    unsigned int vlans[MAX_VLAN_MEMBERSHIP];
+    bool_t is_ipadd_config_backup;
+
     bool_t is_ipadd_config; //L3 property
     ip_add_t ip_add;
     char mask;
